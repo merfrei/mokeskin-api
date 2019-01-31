@@ -43,8 +43,9 @@ class DBModel:
         item_key = self._get_key(key)
         object_json = await self.redis.get(item_key)
         if object_json is not None:
-            object_json['_key'] = item_key
-            return json.loads(object_json)
+            object_item = json.loads(object_json)
+            object_item['_key'] = item_key
+            return object_item
         return None
 
     async def insert(self, key, item, exp=None):
@@ -67,7 +68,7 @@ class DBModel:
         object_json = json.dumps(item)
         if exp is not None:
             exp = int(exp)
-        await self.redis.set(item_key, object_json, exp=exp)
+        await self.redis.set(item_key, object_json, expire=exp)
         return item_key
 
     async def update(self, key, item, exp=None):
@@ -91,7 +92,7 @@ class DBModel:
             raise self.exception_cls('UPDATE ERROR: item does not exist {}'
                                      .format(self._get_key(key)))
         object_json.update(item)
-        self.insert(key, object_json, exp)
+        await self.insert(key, object_json, exp)
         object_json['_key'] = self._get_key(key)
         return object_json
 

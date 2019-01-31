@@ -11,7 +11,7 @@ class ItemDB(DBModel):
     exception_cls = ItemDBError
 
     def __init__(self, app, tag_name):
-        self.tag_name = tag_name  # It identifies the item, easy to filter
+        self.tag_name = str(tag_name)  # It identifies the item, easy to filter
         super().__init__(app)
 
     def _get_key(self, key):

@@ -2,32 +2,39 @@ from api.handlers.base import get_base_get
 from api.handlers.base import get_base_post
 from api.handlers.base import get_base_put
 from api.handlers.base import get_base_delete
+from api.handlers.base import get_base_ttl
 from api.handlers.base import get_404_response
 from api.model.item import ItemDB
 
 
+def get_400_response(msg='Bad Request'):
+    return web.json_response({'message': msg,
+                              'data': {},
+                              'status': 'unknown'}, status=400)
+
+
+async def get_tag_response_handler(request, handler):
+    obj_tag = request.query.get('tag', None)
+    if obj_tag is None:
+        return get_400_response('No tag name')
+    return await handler(ItemDB, tag_name=obj_tag)(request)
+
+
 async def get_handler(request):
-    return await get_base_get(ItemDB)(request)
+    return await get_tag_response_handler(request, get_base_get)
 
 
 async def post_handler(request):
-    return await get_base_post(ItemDB)(request)
+    return await get_tag_response_handler(request, get_base_post)
 
 
 async def put_handler(request):
-    return await get_base_put(ItemDB)(request)
+    return await get_tag_response_handler(request, get_base_put)
 
 
 async def delete_handler(request):
-    return await get_base_delete(ItemDB)(request)
+    return await get_tag_response_handler(request, get_base_delete)
 
 
 async def ttl_handler(request):
-    obj_key = request.match_info.get('key')
-    if obj_key is not None:
-        model_db = DBModel(request.app)
-        ttl = await model_db.ttl(obj_key)
-        return web.json_response({'message': 'All OK',
-                                  'data': {'ttl': ttl},
-                                  'status': 'success'}, status=200)
-    return get_404_response()
+    return await get_tag_response_handler(request, get_base_ttl)
