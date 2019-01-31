@@ -8,7 +8,7 @@ DEFAULT_CONFIG = {
     'API_URL': '/api/v1.0/',
     'DEBUG': False,
     'TESTING': False,
-    'DATABASE_URI': 'redis://localhost:6798/mokeskin',
+    'DATABASE_URI': 'redis://localhost:6798',
     'DATABASE_POOL_MIN': 5,
     'DATABASE_POOL_MAX': 25,
     'API_KEY': 'phahg3EiB@i2Wi!Z'
@@ -22,7 +22,7 @@ DEVELOPMENT['DEBUG'] = True
 
 TESTING = DEFAULT_CONFIG.copy()
 TESTING['TESTING'] = True
-TESTING['DATABASE_URI'] = 'redis://localhost:6798/mokeskin_test'
+TESTING['DATABASE_URI'] = 'redis://localhost:6799'
 
 
 CONFIG = {
