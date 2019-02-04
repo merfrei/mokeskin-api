@@ -12,6 +12,8 @@ def get_base_get(DBModel, *args, **kwargs):
         obj_key = request.match_info.get('key', None)
         model_db = DBModel(request.app, *args, **kwargs)
         obj_db = await model_db.get(obj_key)
+        if obj_db is None:
+            return get_404_response()
         return web.json_response({'message': 'All OK',
                                   'data': obj_db,
                                   'status': 'success'}, status=200)

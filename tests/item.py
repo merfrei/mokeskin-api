@@ -19,6 +19,7 @@ class TestItemAPI(unittest.TestCase):
         'item_data': {
             'data1': 'value1',
             'data2': 'value2',
+            'data_unicode': 'ñoquí con tilde y düiresis € 233',
             'data_int': 4,
         },
         'item_number': 4.18,
@@ -64,6 +65,14 @@ class TestItemAPI(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
         ttl = resp.json()['data']['ttl']
         self.assertTrue(int(ttl) <= int(self.ITEM_TTL))
+
+        # Test DELETE
+        url = urljoin(item_url + '/', self.ITEM_KEY)
+        resp = requests.delete(get_api_url(url, item_qry))
+        self.assertEqual(resp.status_code, 200)
+        # GET response should be 404
+        resp = requests.get(get_api_url(url, item_qry))
+        self.assertEqual(resp.status_code, 404)
 
 
 if __name__ == '__main__':
