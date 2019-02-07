@@ -1,3 +1,4 @@
+from api.handlers.base import get_base_exists
 from api.handlers.base import get_base_get
 from api.handlers.base import get_base_post
 from api.handlers.base import get_base_put
@@ -19,6 +20,9 @@ async def get_tag_response_handler(request, handler):
         return get_400_response('No tag name')
     return await handler(ItemDB, tag_name=obj_tag)(request)
 
+
+async def exists_handler(request):
+    return await get_tag_response_handler(request, get_base_exists)
 
 async def get_handler(request):
     return await get_tag_response_handler(request, get_base_get)

@@ -10,6 +10,7 @@ def get_api_url(url, qry):
 
 class TestItemAPI(unittest.TestCase):
 
+    EXISTS_URL = '/exists'
     ITEM_URL = '/items'
     TTL_URL = '/ttl'
 
@@ -30,6 +31,7 @@ class TestItemAPI(unittest.TestCase):
 
     def test_item_api(self):
         item_qry = 'tag={}'.format(self.ITEM_TAG)
+        exists_url = urljoin(API_HOST, self.EXISTS_URL)
         item_url = urljoin(API_HOST, self.ITEM_URL)
         ttl_url = urljoin(API_HOST, self.TTL_URL)
 
@@ -48,6 +50,15 @@ class TestItemAPI(unittest.TestCase):
         item_data = resp.json()['data']
         for k in self.ITEM_DATA.keys():
             self.assertEqual(item_data[k], self.ITEM_DATA[k])
+
+        # Test GET exists
+        url = urljoin(exists_url + '/', self.ITEM_KEY)
+        resp = requests.get(get_api_url(url, item_qry))
+        self.assertEqual(resp.status_code, 200)
+        item_does_not_exist_key = 'does-not-exist'
+        url = urljoin(exists_url + '/', item_does_not_exist_key)
+        resp = requests.get(get_api_url(url, item_qry))
+        self.assertEqual(resp.status_code, 404)
 
         # Test UPDATE
         put_data = {}

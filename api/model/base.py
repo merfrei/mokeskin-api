@@ -30,6 +30,22 @@ class DBModel:
         """
         return key
 
+    async def exists(self, key):
+        """
+        Check if the key exists in DB
+
+        @type key: string
+        @param key: The key which identifies the object in DB
+
+        @rtype: bool
+        @return: Returns True or False
+        """
+        item_key = self._get_key(key)
+        result = await self.redis.exists(item_key)
+        if result == 0:
+            return False
+        return True
+
     async def get(self, key):
         """
         Get the object data by key

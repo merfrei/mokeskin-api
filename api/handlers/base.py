@@ -7,6 +7,19 @@ def get_404_response():
                               'status': 'unknown'}, status=404)
 
 
+def get_base_exists(DBModel, *args, **kwargs):
+    async def get_handler(request):
+        obj_key = request.match_info.get('key', None)
+        model_db = DBModel(request.app, *args, **kwargs)
+        obj_exists = await model_db.exists(obj_key)
+        if not obj_exists:
+            return get_404_response()
+        return web.json_response({'message': 'All OK',
+                                  'data': {},
+                                  'status': 'success'}, status=200)
+    return get_handler
+
+
 def get_base_get(DBModel, *args, **kwargs):
     async def get_handler(request):
         obj_key = request.match_info.get('key', None)
