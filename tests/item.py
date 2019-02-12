@@ -47,7 +47,7 @@ class TestItemAPI(unittest.TestCase):
         url = urljoin(item_url + '/', self.ITEM_KEY)
         resp = requests.get(get_api_url(url, item_qry))
         self.assertEqual(resp.status_code, 200)
-        item_data = resp.json()['data']
+        item_data = resp.json()['data']['data']
         for k in self.ITEM_DATA.keys():
             self.assertEqual(item_data[k], self.ITEM_DATA[k])
 
@@ -67,7 +67,7 @@ class TestItemAPI(unittest.TestCase):
         put_data['data'] = {'item_name': new_name}
         resp = requests.put(get_api_url(item_url, item_qry), json=put_data)
         self.assertEqual(resp.status_code, 200)
-        item_data = resp.json()['data']
+        item_data = resp.json()['data']['data']
         self.assertEqual(item_data['item_name'], new_name)
 
         # Test TTL
