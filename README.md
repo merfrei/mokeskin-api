@@ -8,12 +8,17 @@ This is a service that provides an API to store objects/items. It's main purpose
 ## API Reference
 
 **IMPORTANT: All the requests should add two extra queries in the url**
+
 **tag_name: it's a prefix to be added to the item's key. ie: cm-spiders-**
+
 **api_key: authorization**
+
+
 
 **GET /exists/{key:.+}**
 
 Check if `key` exists. It will return 404 status code if it doesn't. 200 if it does.
+
 
 **GET /items/{key:.+}**
 
@@ -28,6 +33,7 @@ Returns an item (object) if it exists.
  'status': 'success'}
 
 ```
+
 
 **POST /items**
 
@@ -51,6 +57,7 @@ Content-Type: application/json
 
 ```
 
+
 **PUT /items**
 
 Update an item data. It doesn't need all the fields included, only those to update.
@@ -72,6 +79,7 @@ Content-Type: application/json
  'status': 'success'}
 
 ```
+
 
 **DELETE /items/{key:.+}**
 
