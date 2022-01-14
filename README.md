@@ -111,17 +111,6 @@ Get the current expiration time (in seconds) for an item.
 ```
 
 
-## Develop
-
-**You should have Python 3.7 >= installed (recommended, you could try with Python 3.5 >= but it's not recommended).**
-**You should install the latest stable version of Redis too (https://redis.io/download)**
-
-- Create a virtualenv for the project using the desired python binary: **virtualenv -p python3 --no-site-packages ~/Development/_env/mokeskin-api
-**
-- Clone this repo: **git clone git@bitbucket.org:competitormonitor/mokeskin-api.git**
-- Install the dependencies: **pip install -r requirements.txt** (please remember to activate the proper vitualenv before...)
-
-
 ## Tests
 
 To run the test you should have the project installed before.
